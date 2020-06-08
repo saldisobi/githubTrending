@@ -1,19 +1,25 @@
 package com.saldi.gittrending.ui
 
-import androidx.lifecycle.ViewModelProviders
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.saldi.gittrending.R
+import com.saldi.gittrending.di.Injectable
+import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-class TrendingListFragment : Fragment() {
+class TrendingListFragment : Fragment(), Injectable {
 
     @Inject
-    lateinit var viewModel: TrendingListViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: TrendingListViewModel by viewModels { viewModelFactory }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +30,11 @@ class TrendingListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
     }
 
     companion object {

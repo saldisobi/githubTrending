@@ -1,15 +1,19 @@
 package com.saldi.gittrending
 
+import android.app.Activity
 import android.app.Application
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import com.saldi.gittrending.di.AppInjector
+import dagger.android.*
 import javax.inject.Inject
 
-class TrendingApplication : Application(),HasAndroidInjector {
-
+class TrendingApplication : Application(), HasActivityInjector {
     @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
-    override fun androidInjector(): AndroidInjector<Any> = androidInjector
+    override fun onCreate() {
+        super.onCreate()
+        AppInjector.init(this)
+    }
+
+    override fun activityInjector() = dispatchingAndroidInjector
 }

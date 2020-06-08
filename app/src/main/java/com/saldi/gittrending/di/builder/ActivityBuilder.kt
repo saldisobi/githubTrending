@@ -1,9 +1,11 @@
-package com.saldi.gittrending.di
+package com.saldi.gittrending.di.builder
 
 import com.saldi.gittrending.MainActivity
+import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
+@Module
 abstract class ActivityBuilder {
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [MainActivityFragmentBuilder::class])
     abstract fun contributeMainActivity(): MainActivity
 }
