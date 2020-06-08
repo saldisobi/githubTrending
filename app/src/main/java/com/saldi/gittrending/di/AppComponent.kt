@@ -6,6 +6,7 @@ import com.saldi.gittrending.di.builder.ActivityBuilder
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
+import dagger.android.AndroidInjector
 import javax.inject.Singleton
 
 @Singleton
@@ -14,7 +15,7 @@ import javax.inject.Singleton
         AndroidInjectionModule::class,
         AppModule::class, ActivityBuilder::class, ActivityBuilder::class]
 )
-interface AppComponent {
+interface AppComponent : AndroidInjector<TrendingApplication> {
     @Component.Builder
     interface Builder {
         @BindsInstance
@@ -23,5 +24,5 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    fun inject(trendingApplication: TrendingApplication)
+    override fun inject(trendingApplication: TrendingApplication)
 }
