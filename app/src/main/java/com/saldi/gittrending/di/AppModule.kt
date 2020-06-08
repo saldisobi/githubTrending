@@ -6,6 +6,7 @@ import com.saldi.gittrending.data.network.GitHubService
 import com.saldi.gittrending.data.utils.NetworkUtils
 import dagger.Module
 import dagger.Provides
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -26,10 +27,14 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideRetrofitService(): GitHubService = Retrofit.Builder()
-        .baseUrl(NetworkUtils.BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(GitHubService::class.java)
+    fun provideRetrofitService(): GitHubService {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        return Retrofit.Builder()
+            .baseUrl(NetworkUtils.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(GitHubService::class.java)
+    }
 
 }

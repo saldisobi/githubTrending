@@ -15,10 +15,10 @@ interface TrendingDao {
     fun insertTrending(posts: List<TrendingListItem>)
 
 
-    @Query("DELETE FROM ${TrendingListItem.TABLE_NAME}")
+    @Query("DELETE FROM ${DbUtils.TABLE_TRENDING_LIST}")
     fun deleteAllTrending()
 
 
-    @Query("SELECT * FROM ${TrendingListItem.TABLE_NAME}")
+    @Query("SELECT * FROM ${DbUtils.TABLE_TRENDING_LIST}")
     fun getAllTrending(): Flow<List<TrendingListItem>>
 }

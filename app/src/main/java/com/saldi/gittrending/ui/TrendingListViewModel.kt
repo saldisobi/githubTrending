@@ -18,6 +18,10 @@ class TrendingListViewModel @Inject constructor(private val trendingRepository: 
     val trendingLiveData: LiveData<ApiResponse<List<TrendingListItem>>>
         get() = _trendingLiveData
 
+    init {
+        getPosts("", "daily", "")
+    }
+
     fun getPosts(language: String, since: String, spokenLanguage: String) {
         viewModelScope.launch {
             trendingRepository.getTrending(language, since, spokenLanguage).collect {

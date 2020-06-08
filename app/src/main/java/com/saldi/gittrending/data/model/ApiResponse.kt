@@ -1,12 +1,15 @@
 package com.saldi.gittrending.data.model
 
-sealed class ApiResponse<T> {
+sealed class ApiResponse<T>(
+    val data: T? = null,
+    val errorCode: String? = null
+) {
 
-    class ApiSuccessResponse<T>(body: T) : ApiResponse<T>()
+    class ApiSuccessResponse<T>(data: T) : ApiResponse<T>(data)
 
-    class ApiErrorResponse<T>(errorCode: String) : ApiResponse<T>()
+    class ApiErrorResponse<T>(errorCode: String) : ApiResponse<T>(null, errorCode)
 
-    class ApiLoading<T>() : ApiResponse<T>()
+    class ApiLoading<T>(data: T? = null) : ApiResponse<T>(data)
 
     companion object {
 
