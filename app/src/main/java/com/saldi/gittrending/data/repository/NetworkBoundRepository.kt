@@ -1,5 +1,6 @@
 package com.saldi.gittrending.data.repository
 
+import android.util.Log
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import com.saldi.gittrending.data.model.ApiResponse
@@ -12,20 +13,25 @@ import retrofit2.Response
 
 abstract class NetworkBoundRepository<RESULT, REQUEST> {
 
-    fun asFlow() = flow<ApiResponse<RESULT>>  {
+    fun asFlow() = flow<ApiResponse<RESULT>> {
         try {
             emit(ApiResponse.loading())
+            if (checkFetchPreCondition()) {
+                onRemoteFetchRequired()
+                Log.v("SALDI111", "fetching freom remote")
+                val apiResponse = fetchFromRemote()
 
-            val apiResponse = fetchFromRemote()
+                val remoteResponse = apiResponse.body()
 
-            val remoteResponse = apiResponse.body()
-
-            if (apiResponse.isSuccessful && remoteResponse != null) {
-                // Save posts into the persistence storage
-                saveRemoteData(remoteResponse)
+                if (apiResponse.isSuccessful && remoteResponse != null) {
+                    // Save posts into the persistence storage
+                    saveRemoteData(remoteResponse)
+                } else {
+                    // Something went wrong! Emit Error state.
+                    emit(ApiResponse.error(apiResponse.message()))
+                }
             } else {
-                // Something went wrong! Emit Error state.
-                emit(ApiResponse.error(apiResponse.message()))
+                Log.v("SALDI111", "NOT fetching freom remote")
             }
         } catch (exception: Exception) {
             emit(ApiResponse.error(NetworkUtils.ERROR_MESSAGE))
@@ -54,4 +60,16 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
      */
     @MainThread
     protected abstract fun fetchFromLocal(): Flow<RESULT>
+
+    /**
+     * Checks if we need to fetch data
+     */
+    @MainThread
+    protected abstract fun checkFetchPreCondition(): Boolean
+
+    /**
+     * Checks if we need to fetch data
+     */
+    @MainThread
+    protected abstract fun onRemoteFetchRequired()
 }

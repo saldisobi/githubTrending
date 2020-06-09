@@ -1,6 +1,7 @@
 package com.saldi.gittrending.di
 
 import android.app.Application
+import android.content.Context
 import com.saldi.gittrending.data.db.TrendingDatabase
 import com.saldi.gittrending.data.network.GitHubService
 import com.saldi.gittrending.data.utils.NetworkUtils
@@ -35,6 +36,12 @@ class AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GitHubService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideApplicationContext(application: Application): Context {
+        return application.baseContext
     }
 
 }
