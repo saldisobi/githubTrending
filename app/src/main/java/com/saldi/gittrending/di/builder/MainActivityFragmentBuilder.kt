@@ -1,6 +1,6 @@
 package com.saldi.gittrending.di.builder
 
-import com.saldi.gittrending.ui.TrendingListFragment
+import com.saldi.gittrending.ui.list.TrendingListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

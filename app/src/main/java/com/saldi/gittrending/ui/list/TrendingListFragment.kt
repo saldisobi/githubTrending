@@ -1,4 +1,4 @@
-package com.saldi.gittrending.ui
+package com.saldi.gittrending.ui.list
 
 import android.os.Bundle
 import android.util.Log
@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.saldi.customui.recycler.StateActionHandler
 import com.saldi.gittrending.R
 import com.saldi.gittrending.data.model.ApiResponse
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.trending_list_fragment.*
 import javax.inject.Inject
 
 class TrendingListFragment : DaggerFragment() {
@@ -23,25 +25,48 @@ class TrendingListFragment : DaggerFragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.trending_list_fragment, container, false)
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        with(trendingRecyclerView) {
+            provideEmptyView(R.layout.empty_layout)
+            provideErrorView(R.layout.error_layout)
+            provideLoadingView(R.layout.loading_layout)
+            provideRetryAction(R.id.retry, object : StateActionHandler.ActionClickListener {
+                override fun onClick(view: View) {
+                    trendingRecyclerView.setLoading()
+                }
+            })
+
+        }
+
         viewModel.trendingLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is ApiResponse.ApiLoading -> {
-                    Log.v("saldi111", "showloader")
+                    trendingRecyclerView.setLoading()
                 }
                 is ApiResponse.ApiSuccessResponse -> {
-                    Log.v("saldi111", it.data?.size.toString())
+                    trendingRecyclerView.setAdapter(
+                        it.data?.let { it1 ->
+                            activity?.baseContext?.let { it2 ->
+                                TrendingAdapter(
+                                    it1,
+                                    it2
+                                )
+                            }
+                        }
+                    )
 
                 }
                 is ApiResponse.ApiErrorResponse -> {
-                    Log.v("saldi111", "hide loader error")
+                    trendingRecyclerView.setError()
                 }
             }
         })

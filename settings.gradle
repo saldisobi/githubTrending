@@ -1,2 +1,4 @@
 rootProject.name='GitTrending'
 include ':app'
+include ':app:customui'
+include ':mylibrary'

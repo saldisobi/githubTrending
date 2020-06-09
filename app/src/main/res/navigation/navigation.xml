@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/trendingListFragment"
-        android:name="com.saldi.gittrending.ui.TrendingListFragment"
+        android:name="com.saldi.gittrending.ui.list.TrendingListFragment"
         android:label="trending_list_fragment"
         tools:layout="@layout/trending_list_fragment" />
 </navigation>

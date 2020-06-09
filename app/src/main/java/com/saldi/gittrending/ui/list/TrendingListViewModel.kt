@@ -1,4 +1,4 @@
-package com.saldi.gittrending.ui
+package com.saldi.gittrending.ui.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
