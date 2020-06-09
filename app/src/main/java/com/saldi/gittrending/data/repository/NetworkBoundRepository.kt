@@ -4,9 +4,11 @@ import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import com.saldi.gittrending.data.model.ApiResponse
 import com.saldi.gittrending.data.utils.NetworkUtils
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import retrofit2.Response
-import java.lang.Exception
 
 abstract class NetworkBoundRepository<RESULT, REQUEST> {
 
