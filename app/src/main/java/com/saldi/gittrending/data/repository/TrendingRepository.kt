@@ -1,6 +1,5 @@
 package com.saldi.gittrending.data.repository
 
-import android.content.Context
 import com.saldi.gittrending.data.db.TinyDB
 import com.saldi.gittrending.data.db.TrendingDao
 import com.saldi.gittrending.data.model.ApiResponse

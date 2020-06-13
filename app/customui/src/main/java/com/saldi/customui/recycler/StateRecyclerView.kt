@@ -6,6 +6,7 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
@@ -18,7 +19,7 @@ class StateRecyclerView : RelativeLayout {
     private lateinit var mEmptyView: View
     private lateinit var mErrorView: View
     private lateinit var mLoadingView: View
-    private lateinit var mRecyclerView: RecyclerView
+    public lateinit var mRecyclerView: RecyclerView
 
     private val stateActionHandler by lazy {
         StateActionHandler()
@@ -49,14 +50,14 @@ class StateRecyclerView : RelativeLayout {
 
     fun provideErrorView(view: View) {
         mErrorView = view
-        addView(mErrorView)
+        addViewIncenter(mErrorView)
         mErrorView.visibility = View.GONE
     }
 
     fun provideErrorView(@LayoutRes layout: Int) {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         mErrorView = inflater.inflate(layout, null, false)
-        addView(mErrorView)
+        addViewIncenter(mErrorView)
         mErrorView.visibility = View.GONE
     }
 
@@ -64,24 +65,24 @@ class StateRecyclerView : RelativeLayout {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         mEmptyView = inflater.inflate(layout, null, false)
         mEmptyView.visibility = View.GONE
-        addView(mEmptyView)
+        addViewIncenter(mEmptyView)
     }
 
     fun provideEmptyView(view: View) {
         mEmptyView = view
-        addView(mEmptyView)
+        addViewIncenter(mEmptyView)
         mEmptyView.visibility = View.GONE
     }
 
     fun provideLoadingView(view: View) {
         mLoadingView = view
-        addView(mLoadingView)
+        addViewIncenter(mLoadingView)
     }
 
     fun provideLoadingView(@LayoutRes layout: Int) {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         mLoadingView = inflater.inflate(layout, null, false)
-        addView(mLoadingView)
+        addViewIncenter(mLoadingView)
     }
 
 
@@ -154,6 +155,13 @@ class StateRecyclerView : RelativeLayout {
         const val ERROR_VIEW = "error_view"
         const val RECYCLER_LAYOUT = "com.saldi.StateRecyclerView"
         const val STATE_SUPER_CLASS = "SuperClassState"
+    }
+
+    private fun addViewIncenter(view: View) {
+        val eLayoutParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        eLayoutParams.addRule(CENTER_IN_PARENT, TRUE)
+        view.layoutParams = eLayoutParams
+        addView(view)
     }
 }
 

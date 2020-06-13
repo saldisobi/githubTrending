@@ -1,6 +1,5 @@
 package com.saldi.gittrending.data.repository
 
-import android.util.Log
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import com.saldi.gittrending.data.model.ApiResponse
@@ -18,7 +17,6 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
             emit(ApiResponse.loading())
             if (checkFetchPreCondition()) {
                 onRemoteFetchRequired()
-                Log.v("SALDI111", "fetching freom remote")
                 val apiResponse = fetchFromRemote()
 
                 val remoteResponse = apiResponse.body()
@@ -30,17 +28,17 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
                     // Something went wrong! Emit Error state.
                     emit(ApiResponse.error(apiResponse.message()))
                 }
-            } else {
-                Log.v("SALDI111", "NOT fetching freom remote")
+
+                emitAll(fetchFromLocal().map {
+                    ApiResponse.success<RESULT>(it)
+                })
             }
         } catch (exception: Exception) {
             emit(ApiResponse.error(NetworkUtils.ERROR_MESSAGE))
             exception.printStackTrace()
         }
 
-        emitAll(fetchFromLocal().map {
-            ApiResponse.success<RESULT>(it)
-        })
+
     }
 
     /**
@@ -68,7 +66,7 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
     protected abstract fun checkFetchPreCondition(): Boolean
 
     /**
-     * Checks if we need to fetch data
+     * When we need to fetch form remote what do we do with existing data , take decision here
      */
     @MainThread
     protected abstract fun onRemoteFetchRequired()

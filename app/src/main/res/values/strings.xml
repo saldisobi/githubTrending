@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GitTrending</string>
+    <string name="retry">RETRY</string>
+    <string name="error_no_network">An alien is probably blocking your signal</string>
 </resources>
