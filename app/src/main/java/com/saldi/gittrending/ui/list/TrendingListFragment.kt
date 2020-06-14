@@ -1,7 +1,6 @@
 package com.saldi.gittrending.ui.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.saldi.customui.recycler.StateActionHandler
 import com.saldi.gittrending.R
 import com.saldi.gittrending.data.model.ApiResponse
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.trending_list_fragment.*
 import javax.inject.Inject
+
 
 class TrendingListFragment : DaggerFragment() {
 
@@ -75,7 +76,12 @@ class TrendingListFragment : DaggerFragment() {
     }
 
     private fun setAdapter(trendingAdapter: TrendingAdapter?) {
-
+        trendingRecyclerView.mRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                trendingRecyclerView.mRecyclerView.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         trendingRecyclerView.setAdapter(trendingAdapter)
 
         val selectionTracker = SelectionTracker.Builder(

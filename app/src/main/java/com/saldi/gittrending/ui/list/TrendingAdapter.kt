@@ -1,12 +1,13 @@
 package com.saldi.gittrending.ui.list
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
@@ -113,17 +114,21 @@ class TrendingAdapter(val trendingList: List<TrendingListItem>, val context: Con
 
         fun bind(trendingListItem: TrendingListItem) {
             mItemDetails.position = position.toLong()
-            itemTrendingBinding.repoName.text = trendingListItem.name
-            itemTrendingBinding.devName.text = trendingListItem.author
+            itemTrendingBinding.repo.text = trendingListItem.name
+            itemTrendingBinding.developer.text = trendingListItem.author
             Glide.with(itemTrendingBinding.imageView.context)
                 .load(trendingListItem.avatar)
                 .into(itemTrendingBinding.imageView);
 
             if (selectionTracker != null) {
                 if (this@TrendingAdapter.selectionTracker?.isSelected(mItemDetails.selectionKey) == true) {
-                    itemTrendingBinding.devName.setTextColor(Color.RED)
+                    itemTrendingBinding.expandGroup.visibility = View.VISIBLE
+                    itemTrendingBinding.textView5.text = trendingListItem.language
+                    itemTrendingBinding.textView3.text = trendingListItem.description
+                    itemTrendingBinding.textView6.text = trendingListItem.forks.toString()
+                    itemTrendingBinding.textView7.text = trendingListItem.stars.toString()
                 } else {
-                    itemTrendingBinding.devName.setTextColor(Color.GREEN)
+                    itemTrendingBinding.expandGroup.visibility = View.GONE
                 }
             }
         }
