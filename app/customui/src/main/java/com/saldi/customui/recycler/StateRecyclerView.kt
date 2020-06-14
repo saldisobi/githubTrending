@@ -158,7 +158,8 @@ class StateRecyclerView : RelativeLayout {
     }
 
     private fun addViewIncenter(view: View) {
-        val eLayoutParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val eLayoutParams =
+            LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         eLayoutParams.addRule(CENTER_IN_PARENT, TRUE)
         view.layoutParams = eLayoutParams
         addView(view)

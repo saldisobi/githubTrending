@@ -21,7 +21,8 @@ class TrendingRepository @Inject constructor(
     fun getTrending(
         language: String,
         since: String,
-        spokenLanguage: String
+        spokenLanguage: String,
+        isForce: Boolean
     ): Flow<ApiResponse<List<TrendingListItem>>> {
         return object : NetworkBoundRepository<List<TrendingListItem>, List<TrendingListItem>>() {
 
@@ -41,7 +42,7 @@ class TrendingRepository @Inject constructor(
                 gitHubService.getTrendingRepositories(language, since, spokenLanguage)
 
             override fun checkFetchPreCondition(): Boolean {
-                return isUpdateRequired()
+                return isForce || isUpdateRequired()
             }
 
             override fun onRemoteFetchRequired() {

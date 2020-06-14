@@ -1,6 +1,7 @@
 package com.saldi.gittrending.ui.list
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,9 +44,19 @@ class TrendingListFragment : DaggerFragment() {
             provideRetryAction(R.id.retry, object : StateActionHandler.ActionClickListener {
                 override fun onClick(view: View) {
                     trendingRecyclerView.setLoading()
-                    viewModel.getPosts("", "", "")
+                    viewModel.getPosts("", "", "", false)
                 }
             })
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            viewModel.getForcePost()
+            val handler = Handler()
+            handler.postDelayed(Runnable {
+                if (swipeRefresh.isRefreshing) {
+                    swipeRefresh.isRefreshing = false
+                }
+            }, 1000)
         }
 
         viewModel.trendingLiveData.observe(viewLifecycleOwner, Observer {

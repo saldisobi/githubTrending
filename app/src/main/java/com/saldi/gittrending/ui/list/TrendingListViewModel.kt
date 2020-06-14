@@ -20,14 +20,18 @@ class TrendingListViewModel @Inject constructor(private val trendingRepository: 
 
     init {
         //TODO remove unused form here
-        getPosts("", "daily", "")
+        getPosts("", "daily", "", false)
     }
 
-    fun getPosts(language: String, since: String, spokenLanguage: String) {
+    fun getPosts(language: String, since: String, spokenLanguage: String, isforce: Boolean) {
         viewModelScope.launch {
-            trendingRepository.getTrending(language, since, spokenLanguage).collect {
+            trendingRepository.getTrending(language, since, spokenLanguage,isforce).collect {
                 _trendingLiveData.value = it
             }
         }
+    }
+
+    fun getForcePost() {
+        getPosts("", "daily", "", true)
     }
 }
