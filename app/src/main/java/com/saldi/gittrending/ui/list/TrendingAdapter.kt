@@ -128,12 +128,8 @@ class TrendingAdapter(val trendingList: List<TrendingListItem>, val context: Con
                     itemTrendingBinding.textView3.text = trendingListItem.description
                     itemTrendingBinding.textView6.text = trendingListItem.forks.toString()
                     itemTrendingBinding.textView7.text = trendingListItem.stars.toString()
-                    val constraintSet1 = ConstraintSet()
-                    constraintSet1.clone(itemTrendingBinding.parent)
                 } else {
                     itemTrendingBinding.expandGroup.visibility = View.GONE
-                    val constraintSet1 = ConstraintSet()
-                    constraintSet1.clone(itemTrendingBinding.parent)
                 }
             }
         }

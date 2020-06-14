@@ -48,9 +48,6 @@ class TrendingListFragment : DaggerFragment() {
             })
         }
 
-
-
-
         viewModel.trendingLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is ApiResponse.ApiLoading -> {
@@ -85,7 +82,7 @@ class TrendingListFragment : DaggerFragment() {
         trendingRecyclerView.setAdapter(trendingAdapter)
 
         val selectionTracker = SelectionTracker.Builder(
-            "my_selection",
+            SELECTION,
             trendingRecyclerView.mRecyclerView,
             TrendingAdapter.KeyProvider(),
             TrendingAdapter.DetailsLookup(trendingRecyclerView.mRecyclerView),
@@ -100,7 +97,7 @@ class TrendingListFragment : DaggerFragment() {
     }
 
     companion object {
-        fun newInstance() = TrendingListFragment()
+        const val SELECTION = "my_selection"
     }
 
 }

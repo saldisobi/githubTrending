@@ -53,7 +53,6 @@ class TrendingRepository @Inject constructor(
     }
 
     fun isUpdateRequired(): Boolean {
-        return true
-        // return NetworkUtils.isUpdateRequired(tintDb.getLong(NetworkUtils.PREVIOUS_SYNC_TIME, 0))
+        return NetworkUtils.isUpdateRequired(tintDb.getLong(NetworkUtils.PREVIOUS_SYNC_TIME, 0))
     }
 }

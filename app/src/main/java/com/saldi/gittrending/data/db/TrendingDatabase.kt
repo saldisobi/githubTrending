@@ -16,7 +16,6 @@ abstract class TrendingDatabase : RoomDatabase() {
 
     companion object {
 
-
         @Volatile
         private var INSTANCE: TrendingDatabase? = null
 

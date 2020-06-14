@@ -32,6 +32,10 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
                 emitAll(fetchFromLocal().map {
                     ApiResponse.success<RESULT>(it)
                 })
+            } else {
+                emitAll(fetchFromLocal().map {
+                    ApiResponse.success<RESULT>(it)
+                })
             }
         } catch (exception: Exception) {
             emit(ApiResponse.error(NetworkUtils.ERROR_MESSAGE))

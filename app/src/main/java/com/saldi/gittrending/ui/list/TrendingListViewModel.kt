@@ -19,6 +19,7 @@ class TrendingListViewModel @Inject constructor(private val trendingRepository: 
         get() = _trendingLiveData
 
     init {
+        //TODO remove unused form here
         getPosts("", "daily", "")
     }
 
