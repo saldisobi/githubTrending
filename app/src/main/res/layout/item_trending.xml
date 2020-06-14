@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
-        android:layout_height="91dp"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_padding">
 
         <com.saldi.customui.image.CircleImageView
@@ -55,8 +56,9 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/guideline11"
+            app:layout_constraintTop_toBottomOf="@+id/repo"
             app:layout_constraintWidth_percent=".9"
             tools:text="Some random details about repo here" />
 
@@ -75,7 +77,8 @@
             android:layout_marginLeft="5dp"
             android:text="language"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView3" />
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <ImageView
             android:id="@+id/imageView8"
