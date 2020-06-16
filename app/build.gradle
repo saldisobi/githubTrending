@@ -52,6 +52,20 @@ android {
 }
 
 dependencies {
+
+    def androidXTestCoreVersion = '1.2.0'
+    def androidXTestExtKotlinRunnerVersion = '1.1.1'
+    def androidXTestRulesVersion = '1.2.0-beta01'
+    def archTestingVersion = '2.0.0'
+
+    def mockito = "2.25.0"
+    def mockito_all = "1.10.19"
+    def mockito_android = "2.25.0"
+
+    def mockitoCore = "org.mockito:mockito-core:$mockito"
+    def mockitoAll = "org.mockito:mockito-all:$mockito_all"
+    def mockitoAndroid = "org.mockito:mockito-android:$mockito_android"
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -100,4 +114,19 @@ dependencies {
 
     implementation 'com.android.support.constraint:constraint-layout:2.0.0'
     implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
+
+
+    testImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
+
+    testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
+
+    testImplementation "android.arch.core:core-testing:$androidXTestCoreVersion"
+
+    testImplementation mockitoCore
+    androidTestImplementation mockitoCore
+    androidTestImplementation mockitoAndroid
+
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.7'
+
+    // testImplementation "org.robolectric:robolectric:$robolectricVersion"
 }

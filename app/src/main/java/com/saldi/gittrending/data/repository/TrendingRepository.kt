@@ -12,13 +12,13 @@ import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
 import javax.inject.Inject
 
-class TrendingRepository @Inject constructor(
+open class TrendingRepository @Inject constructor(
     private val gitHubService: GitHubService,
     private val trendingDao: TrendingDao,
     private val tintDb: TinyDB
 ) {
 
-    fun getTrending(
+  open  fun getTrending(
         language: String,
         since: String,
         spokenLanguage: String,

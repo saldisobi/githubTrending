@@ -15,7 +15,6 @@ class NetworkUtils {
             if ((System.currentTimeMillis() - previousFetchTime) > TWO_HOURS) {
                 return true
             }
-
             return false
         }
 
