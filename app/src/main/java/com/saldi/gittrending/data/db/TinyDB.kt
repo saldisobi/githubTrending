@@ -36,7 +36,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class TinyDB @Inject constructor(appContext: Context?) {
+open class TinyDB @Inject constructor(appContext: Context?) {
     private val preferences: SharedPreferences
     private var DEFAULT_APP_IMAGEDATA_DIRECTORY: String? = null
 

@@ -5,6 +5,7 @@ import com.saldi.gittrending.data.model.ApiResponse
 import com.saldi.gittrending.data.model.BuiltBy
 import com.saldi.gittrending.data.model.TrendingListItem
 import com.saldi.gittrending.data.repository.TrendingRepository
+import com.saldi.gittrending.util.TestUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -57,14 +58,7 @@ class TrendingListViewModelTest {
     fun getPosts_setsTrendingData() =
         runBlockingTest {
             //given
-            val builtByList = arrayListOf<BuiltBy>()
-            builtByList.add(BuiltBy("", "", "saldi"))
-
-            val trendingListItem =
-                TrendingListItem(0, "", "", builtByList, 0, "", 0, "", "", "", 0, "")
-            val trendingList = arrayListOf<TrendingListItem>()
-            trendingList.add(trendingListItem)
-
+            val trendingList = TestUtil.createTrendingResponse()
             val expectedResponse = ApiResponse.success(trendingList)
 
             Mockito.`when`(trendingRepository.getTrending("", "", "", false))
