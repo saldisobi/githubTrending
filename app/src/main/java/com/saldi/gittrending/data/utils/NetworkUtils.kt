@@ -3,7 +3,9 @@ package com.saldi.gittrending.data.utils
 open class NetworkUtils {
     companion object {
         //TODO move this to something like endpoints.gradle for debug and prod url to be configured
-        const val BASE_URL = "https://ghapi.huchen.dev/"
+
+        const val BASE_URL = "https://mp-android-challenge.herokuapp.com"
+
 
         const val ERROR_MESSAGE = "Something went wrong"
 

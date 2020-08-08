@@ -7,7 +7,15 @@
 
     <fragment
         android:id="@+id/trendingListFragment"
-        android:name="com.saldi.gittrending.ui.list.TrendingListFragment"
+        android:name="com.saldi.gittrending.ui.list.ScanListFragment"
         android:label="trending_list_fragment"
-        tools:layout="@layout/trending_list_fragment" />
+        tools:layout="@layout/trending_list_fragment" >
+        <action
+            android:id="@+id/action_trendingListFragment_to_scanDetailFragment"
+            app:destination="@id/scanDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scanDetailFragment"
+        android:name="com.saldi.gittrending.ui.detail.ScanDetailFragment"
+        android:label="ScanDetailFragment" />
 </navigation>

@@ -5,6 +5,10 @@
     <color name="placeholder_bg">#dddddd</color>
     <color name="colorAccent">#549e6f</color>
     <color name="colorSalmon">#FA8072</color>
+    <color name="black">#000000</color>
+    <color name="greenText"> #0E6655</color>
+
+
 
 
 </resources>

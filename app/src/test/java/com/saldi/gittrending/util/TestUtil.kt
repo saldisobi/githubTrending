@@ -1,8 +1,5 @@
 package com.saldi.gittrending.util
 
-import com.saldi.gittrending.data.model.BuiltBy
-import com.saldi.gittrending.data.model.TrendingListItem
-
 
 object TestUtil {
 

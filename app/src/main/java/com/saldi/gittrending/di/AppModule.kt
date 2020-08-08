@@ -2,8 +2,7 @@ package com.saldi.gittrending.di
 
 import android.app.Application
 import android.content.Context
-import com.saldi.gittrending.data.db.TrendingDatabase
-import com.saldi.gittrending.data.network.GitHubService
+import com.saldi.gittrending.data.network.ScanService
 import com.saldi.gittrending.data.utils.NetworkUtils
 import dagger.Module
 import dagger.Provides
@@ -18,24 +17,17 @@ import javax.inject.Singleton
     ]
 )
 class AppModule {
-    @Singleton
-    @Provides
-    fun provideDatabase(application: Application) = TrendingDatabase.getInstance(application)
 
     @Singleton
     @Provides
-    fun providePostsDao(database: TrendingDatabase) = database.getTrendingDao()
-
-    @Singleton
-    @Provides
-    fun provideRetrofitService(): GitHubService {
+    fun provideRetrofitService(): ScanService {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         return Retrofit.Builder()
             .baseUrl(NetworkUtils.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(GitHubService::class.java)
+            .create(ScanService::class.java)
     }
 
     @Singleton

@@ -2,9 +2,6 @@ package com.saldi.gittrending.ui.list
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.saldi.gittrending.data.model.ApiResponse
-import com.saldi.gittrending.data.model.BuiltBy
-import com.saldi.gittrending.data.model.TrendingListItem
-import com.saldi.gittrending.data.repository.TrendingRepository
 import com.saldi.gittrending.util.TestUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,7 +24,7 @@ class TrendingListViewModelTest {
 
     private lateinit var trendingRepository: TrendingRepository
 
-    private lateinit var trendingListViewModel: TrendingListViewModel
+    private lateinit var trendingListViewModel: ScanListViewModel
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -42,7 +39,7 @@ class TrendingListViewModelTest {
         Dispatchers.setMain(testDispatcher)
 
         trendingRepository = mock(TrendingRepository::class.java)
-        trendingListViewModel = TrendingListViewModel(trendingRepository)
+        trendingListViewModel = ScanListViewModel(trendingRepository)
     }
 
     @ExperimentalCoroutinesApi

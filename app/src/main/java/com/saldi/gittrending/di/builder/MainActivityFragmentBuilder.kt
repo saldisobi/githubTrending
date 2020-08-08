@@ -1,6 +1,7 @@
 package com.saldi.gittrending.di.builder
 
-import com.saldi.gittrending.ui.list.TrendingListFragment
+import com.saldi.gittrending.ui.detail.ScanDetailFragment
+import com.saldi.gittrending.ui.list.ScanListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,5 +9,8 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class MainActivityFragmentBuilder {
     @ContributesAndroidInjector
-    abstract fun contributeRepoFragment(): TrendingListFragment
+    abstract fun contributeRepoFragment(): ScanListFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeDetailFragment(): ScanDetailFragment
 }

@@ -8,25 +8,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.selection.SelectionTracker
-import androidx.recyclerview.selection.StorageStrategy
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.saldi.customui.recycler.StateActionHandler
+import com.saldi.gittrending.MainActivity
 import com.saldi.gittrending.R
 import com.saldi.gittrending.data.model.ApiResponse
+import com.saldi.gittrending.data.model.ScanParserItem
+import com.saldi.gittrending.engine.ScanClickListener
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.trending_list_fragment.*
 import javax.inject.Inject
 
 
-class TrendingListFragment : DaggerFragment() {
+class ScanListFragment : DaggerFragment(), ScanClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
 
-    private val viewModel: TrendingListViewModel by viewModels { viewModelFactory }
+    private val viewModel by viewModels<ScanListViewModel>({ activity as MainActivity }) { viewModelFactory }
 
+    private var scanList: List<ScanParserItem>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -44,13 +47,13 @@ class TrendingListFragment : DaggerFragment() {
             provideRetryAction(R.id.retry, object : StateActionHandler.ActionClickListener {
                 override fun onClick(view: View) {
                     trendingRecyclerView.setLoading()
-                    viewModel.getPosts("", "", "", false)
+                    viewModel.getScanItems()
                 }
             })
         }
 
         swipeRefresh.setOnRefreshListener {
-            viewModel.getForcePost()
+            viewModel.getScanItems()
             val handler = Handler()
             handler.postDelayed(Runnable {
                 if (swipeRefresh.isRefreshing) {
@@ -59,23 +62,25 @@ class TrendingListFragment : DaggerFragment() {
             }, 1000)
         }
 
-        viewModel.trendingLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.scanLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is ApiResponse.ApiLoading -> {
+                is ApiResponse.ApiLoading<*> -> {
                     trendingRecyclerView.setLoading()
                 }
-                is ApiResponse.ApiSuccessResponse -> {
+                is ApiResponse.ApiSuccessResponse<*> -> {
+                    scanList = it.data
                     var trendingAdapter = it.data?.let { it1 ->
                         activity?.baseContext?.let { it2 ->
-                            TrendingAdapter(
+                            ScanAdapter(
                                 it1,
-                                it2
+                                it2,
+                                this
                             )
                         }
                     }
                     setAdapter(trendingAdapter)
                 }
-                is ApiResponse.ApiErrorResponse -> {
+                is ApiResponse.ApiErrorResponse<*> -> {
                     trendingRecyclerView.setError()
                 }
             }
@@ -83,7 +88,7 @@ class TrendingListFragment : DaggerFragment() {
 
     }
 
-    private fun setAdapter(trendingAdapter: TrendingAdapter?) {
+    private fun setAdapter(trendingAdapter: ScanAdapter?) {
         trendingRecyclerView.mRecyclerView.addItemDecoration(
             DividerItemDecoration(
                 trendingRecyclerView.mRecyclerView.context,
@@ -92,23 +97,15 @@ class TrendingListFragment : DaggerFragment() {
         )
         trendingRecyclerView.setAdapter(trendingAdapter)
 
-        val selectionTracker = SelectionTracker.Builder(
-            SELECTION,
-            trendingRecyclerView.mRecyclerView,
-            TrendingAdapter.KeyProvider(),
-            TrendingAdapter.DetailsLookup(trendingRecyclerView.mRecyclerView),
-            StorageStrategy.createLongStorage()
-        )
-            .withSelectionPredicate(TrendingAdapter.Predicate())
-            .build()
-
-
-        trendingAdapter?.setSelectionTracker(selectionTracker)
-
     }
 
-    companion object {
-        const val SELECTION = "my_selection"
+    override fun onItemClickListener(position: Int) {
+        scanList?.get(position)?.let {
+            viewModel.setScanItem(it)
+            view?.findNavController()
+                ?.navigate(R.id.action_trendingListFragment_to_scanDetailFragment)
+        }
+
     }
 
 }
